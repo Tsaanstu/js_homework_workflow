@@ -1,0 +1,7 @@
+.ListBlock {
+    border: solid 1px red;
+    position: relative;
+    overflow: auto;
+    height: 20px;
+    width: 100%;
+}

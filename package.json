@@ -1,0 +1,32 @@
+{
+  "name": "react-workflow",
+  "version": "1.0.0",
+  "description": "workflow",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-addons-update": "^15.6.2",
+    "react-dnd": "^9.4.0",
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^5.1.2",
+    "yt-player": "^3.4.3"
+  }
+}

@@ -1,0 +1,14 @@
+.flexRow {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.flexColumn {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

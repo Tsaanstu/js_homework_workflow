@@ -1,0 +1,17 @@
+.ListBlock {
+    border: solid 3px black;
+    position: relative;
+    height: 200px;
+    width: 100px;
+    margin-right: 20px;
+}
+
+.ListDate {
+    height: 100%;
+    width: 100%;
+    background: antiquewhite;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
