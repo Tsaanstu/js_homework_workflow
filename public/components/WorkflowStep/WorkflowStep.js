@@ -8,43 +8,40 @@ class WorkflowStep extends React.Component {
         super(props);
         this.state = {
             blocks: [],
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        console.log("componentDidUpdate");
-        const changes = Object.keys(this.props).filter((name) => this.props[name] !== prevProps[name]);
-        changes.forEach((name) => {
-                switch (name) {
-                    case "inner":
-                        console.log("INNER UPDATE");
-                        this.setState({
-                                blocks: this.props[name].map(block =>
-                                    <Button
-                                        inner={block.inner}
-                                    />)
-                            }
-                        );
-                        break;
-                }
+        };
+        this.state.blocks = this.props.steps.map(block => {
+                return (
+                    <Button
+                        key={block.key}
+                        inner={block.inner}
+                    />
+                )
             }
-        )
+        );
     }
 
     render() {
-        console.log(this.props);
         return (
             <div
                 className={"ListBlock"}
             >
-                <div>
+                <div
+                    className={"ListTitle"}
+                >
                     {this.props.title}
                 </div>
-                <hr/>
+                <div
+                    className={"ListLine"}
+                >
+                    <hr/>
+                </div>
+                <div
+                    className={"InnerIndent"}
+                />
                 <div
                     className={"ListDate"}
                 >
-                    {this.props.steps}
+                    {this.state.blocks}
                 </div>
             </div>
         )

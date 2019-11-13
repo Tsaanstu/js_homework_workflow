@@ -10,53 +10,69 @@ class Workflow extends React.Component {
         super(props);
         this.state = {
             stepCount: 0,
-            step: [],
             stepComponents: [],
         };
+        this.step = [];
         this.handleSetStep = this.handleSetStep.bind(this);
         this.handleSetStage = this.handleSetStage.bind(this);
         this.createStep = this.createStep.bind(this);
+        this.recreateSteps = this.recreateSteps.bind(this);
     }
 
     createStep() {
-        console.log("--- createStep");
-
-        let st = this.state.step;
         let newCount = this.state.stepCount + 1;
-        let newStep = {
+        this.recreateSteps({
+            key: this.state.stepCount,
             title: `Stage ${newCount}`,
-            steps: ["kek", "lol"],
-        };
-        st.push(newStep);
-
-        this.setState({
-            stepCount: newCount,
-            step: st,
-        });
-        this.setState({
-            stepComponents: this.state.step.map(step =>
-                <WorkflowStep
-                    title={step.title}
-                    steps={step.steps}
-                />
-            )
+            steps: [],
+            count: 0,
         });
     }
 
+    recreateSteps(newObject) {
+        if (newObject !== undefined) {
+            this.step.push(newObject);
+            this.setState({
+                stepCount: this.state.stepCount + 1,
+                stepComponents: this.step.map(step =>
+                    <WorkflowStep
+                        key={step.key}
+                        title={step.title}
+                        steps={step.steps}
+                        count={step.count}
+                    />
+                )
+            })
+        } else {
+            this.setState({
+                stepComponents: this.step.map(step => {
+                        return (
+                            <WorkflowStep
+                                key={Math.random()}
+                                title={step.title}
+                                steps={step.steps}
+                                count={step.count}
+                            />
+                        )
+                    }
+                )
+            });
+        }
+    }
+
     createStage() {
-        console.log(`CreateStage: ${this.state.step[0].title}`);
         if (this.state.stepCount < 1) {
             alert(`Сначала добавьте "стадию"`);
             return
         }
-        let beginArr = this.state.step[0].steps;
-        let newStage = {
-            inner: "Очень важное дело"
-        };
-        beginArr.push(newStage);
-        this.setState({
-            step: update(this.state.step, {0: {steps: {$set: beginArr}}})
-        });
+        this.step[0].steps.push(
+            {
+                key: this.step[0].count,
+                inner: "Очень важное дело"
+            }
+        );
+        this.step[0].count += 1;
+        this.recreateSteps();
     }
 
     handleSetStep(event) {
