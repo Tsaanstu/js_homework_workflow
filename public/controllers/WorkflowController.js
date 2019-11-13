@@ -1,6 +1,6 @@
 "use strict";
 import React from "react";
-import update from 'react-addons-update';
+import TextArea from "Components/TextArea/TextArea"
 import Button from "Components/Button/Button";
 import WorkflowStep from "Components/WorkflowStep/WorkflowStep";
 import "Controllers/WorkflowController.css"
@@ -11,12 +11,34 @@ class Workflow extends React.Component {
         this.state = {
             stepCount: 0,
             stepComponents: [],
+            textAreaValue: ""
         };
         this.step = [];
         this.handleSetStep = this.handleSetStep.bind(this);
         this.handleSetStage = this.handleSetStage.bind(this);
         this.createStep = this.createStep.bind(this);
         this.recreateSteps = this.recreateSteps.bind(this);
+        this.handleUpdateTextAreaValue = this.handleUpdateTextAreaValue.bind(this);
+        this.handleUpdateTextAreaValue = this.handleUpdateTextAreaValue.bind(this);
+        this.handleDoStep = this.handleDoStep.bind(this);
+    }
+
+    handleDoStep(index) {
+        console.log(index);
+        console.log(this.state.stepCount);
+
+        let dvig = this.step[index].steps[0];
+
+        this.step[index].steps.shift();
+
+        if (index + 1 < this.state.stepCount) {
+            this.step[index + 1].steps.push(dvig);
+        }
+        this.recreateSteps();
+    }
+
+    handleUpdateTextAreaValue(event) {
+        this.setState({textAreaValue: event.target.value});
     }
 
     createStep() {
@@ -32,26 +54,37 @@ class Workflow extends React.Component {
     recreateSteps(newObject) {
         if (newObject !== undefined) {
             this.step.push(newObject);
+            let index = 0;
             this.setState({
                 stepCount: this.state.stepCount + 1,
-                stepComponents: this.step.map(step =>
-                    <WorkflowStep
-                        key={step.key}
-                        title={step.title}
-                        steps={step.steps}
-                        count={step.count}
-                    />
-                )
-            })
-        } else {
-            this.setState({
-                stepComponents: this.step.map(step => {
+                stepComponents: this.step.map((step, index) => {
+                        index += 1;
                         return (
                             <WorkflowStep
-                                key={Math.random()}
+                                key={step.key}
+                                index={index - 1}
                                 title={step.title}
                                 steps={step.steps}
                                 count={step.count}
+                                eventListener={this.handleDoStep}
+                            />
+                        )
+                    }
+                )
+            })
+        } else {
+            let index = 0;
+            this.setState({
+                stepComponents: this.step.map((step, index) => {
+                        index += 1;
+                        return (
+                            <WorkflowStep
+                                key={Math.random()}
+                                index={index - 1}
+                                title={step.title}
+                                steps={step.steps}
+                                count={step.count}
+                                eventListener={this.handleDoStep}
                             />
                         )
                     }
@@ -68,10 +101,13 @@ class Workflow extends React.Component {
         this.step[0].steps.push(
             {
                 key: this.step[0].count,
-                inner: "Очень важное дело"
+                inner: this.state.textAreaValue
             }
         );
         this.step[0].count += 1;
+        this.setState({
+            textAreaValue: ""
+        });
         this.recreateSteps();
     }
 
@@ -90,17 +126,24 @@ class Workflow extends React.Component {
             <div
                 className={"flexColumn"}
             >
+                <h1>
+                    {"Workflow"}
+                </h1>
                 <Button
                     inner={"Добавить стадию процесса"}
                     eventListener={this.handleSetStep}
                 />
-                {/*<Line/>*/}
+                <h3>
+                    {"Опишите вашу задачу"}
+                </h3>
+                <TextArea
+                    value={this.state.textAreaValue}
+                    onChange={this.handleUpdateTextAreaValue}
+                />
                 <Button
                     inner={"Добавить задачу"}
                     eventListener={this.handleSetStage}
                 />
-                {/*{this.state.stepCount}*/}
-                {/*{this.state.step}*/}
                 <div
                     className={"flexRow"}
                 >

@@ -24,8 +24,17 @@ class Button extends React.Component {
     }
 
     render() {
+        let typeRender = "button";
+        switch (this.type) {
+            case "send":
+                typeRender += " buttonSend";
+                break;
+            case "default":
+                typeRender += " buttonDefault";
+                break;
+        }
         return (
-            <div id={this.state.id} onClick={this.state.onBtnClick} className={"button buttonDefault"}>
+            <div id={this.state.id} onClick={this.state.onBtnClick} className={typeRender}>
                 {this.state.inner}
             </div>
         )

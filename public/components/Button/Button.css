@@ -4,14 +4,21 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-}
-
-.buttonDefault {
-    height: 50px;
-    width: 100px;
-    color: red;
+    color: black;
     background-color: white;
     border: solid 5px black;
     margin: 1% 0 1% 0;
     text-align: center;
+}
+
+.buttonDefault {
+    word-wrap: normal;
+    height: auto;
+    width: 170px;
+}
+
+.buttonSend {
+    word-wrap: normal;
+    height: 60px;
+    width: 200px;
 }

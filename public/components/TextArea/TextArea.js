@@ -7,19 +7,10 @@ class TextArea extends React.Component {
     }
 
     render() {
-        let typeRender = "";
-        switch (this.props.type) {
-            case "playerDescription":
-                typeRender += "playerDescription";
-                break;
-            case "default":
-                typeRender += "default";
-                break;
-        }
         return (
             <div>
                 <textarea
-                    className={typeRender}
+                    className={"default"}
                     id={this.props.id}
                     type={this.props.inputType}
                     value={this.props.value}
