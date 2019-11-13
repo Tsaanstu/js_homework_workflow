@@ -22,8 +22,8 @@ class TextArea extends React.Component {
                     className={typeRender}
                     id={this.props.id}
                     type={this.props.inputType}
-                    value={this.props.value}
                     onChange={this.props.onChange}
+                    onClick={this.props.onClick}
                 />
             </div>
         )

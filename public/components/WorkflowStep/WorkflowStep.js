@@ -1,5 +1,4 @@
 import React from "react";
-import "Components/WorkflowBlock/WorkflowBlock"
 import "Components/WorkflowStep/WorkflowStep.css"
 import Button from "Components/Button/Button";
 import TextArea from "Components/TextArea/TextArea"
@@ -13,24 +12,29 @@ class WorkflowStep extends React.Component {
         let index = 0;
         this.state.blocks = this.props.steps.map((block, index) => {
                 index += 1;
-                console.log(`1) wtf ${this.props.changed} ${index - 1}`);
                 if ((index - 1) !== this.props.changed) {
                     return (
                         <Button
                             key={Math.random()}
                             inner={block.inner}
-                            eventListener={() => {
-                                this.props.changeStep(this.props.index, index - 1)
+                            eventListener={(event) => {
+                                this.props.changeStep(this.props.index, index - 1);
+                                event.stopPropagation();
                             }}
                         />
                     )
                 }
-                console.log("2) wtf");
                 return (
                     <TextArea
                         key={Math.random()}
                         type={"step"}
-                        onChange={() => {
+                        value={block.inner}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                        }}
+                        onChange={(event) => {
+                            this.props.changeStepValue(this.props.index, index - 1, event.target.value);
+                            event.stopPropagation();
                         }}
                     />
                 )
@@ -61,7 +65,7 @@ class WorkflowStep extends React.Component {
                 >
                     <Button
                         eventListener={() => {
-                            this.props.eventListener(this.props.index)
+                            this.props.eventListener(this.props.index);
                         }}
                         type={"send"}
                         inner={"Перевести верхнюю задачу на следующую стадию"}

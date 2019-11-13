@@ -11,7 +11,8 @@ class Workflow extends React.Component {
         this.state = {
             stepCount: 0,
             stepComponents: [],
-            textAreaValue: ""
+            textAreaValue: "",
+            textAreaKey: Math.random()
         };
         this.step = [];
         this.handleSetStep = this.handleSetStep.bind(this);
@@ -19,29 +20,32 @@ class Workflow extends React.Component {
         this.createStep = this.createStep.bind(this);
         this.recreateSteps = this.recreateSteps.bind(this);
         this.handleUpdateTextAreaValue = this.handleUpdateTextAreaValue.bind(this);
-        this.handleUpdateTextAreaValue = this.handleUpdateTextAreaValue.bind(this);
         this.handleDoStep = this.handleDoStep.bind(this);
         this.handleChangeStep = this.handleChangeStep.bind(this);
+        this.handleChangeStepValue = this.handleChangeStepValue.bind(this);
+        this.handleClearChanged = this.handleClearChanged.bind(this);
+    }
+
+    handleClearChanged() {
+        this.recreateSteps("clearChanged");
     }
 
     handleChangeStep(indexStage, indexStep) {
-        console.log(`ChangeStep: ${indexStage}, ${indexStep}`);
-        console.log(this.step[indexStage].steps[indexStep].inner);
         this.step[indexStage].changed = indexStep;
-        console.log(`kek is ${this.step[indexStage].changed}`);
         this.recreateSteps();
     }
 
+    handleChangeStepValue(indexStage, indexStep, value) {
+        this.step[indexStage].steps[indexStep].inner = value
+    }
+
     handleDoStep(index) {
-        console.log(index);
-        console.log(this.state.stepCount);
-
         let dvig = this.step[index].steps[0];
-
         this.step[index].steps.shift();
-
         if (index + 1 < this.state.stepCount) {
             this.step[index + 1].steps.push(dvig);
+        } else {
+            alert(`Поздравляю с выполнением задачи "${dvig.inner}"`);
         }
         this.recreateSteps();
     }
@@ -62,7 +66,28 @@ class Workflow extends React.Component {
     }
 
     recreateSteps(newObject) {
-        if (newObject !== undefined) {
+        if (newObject === "clearChanged") {
+            let index = 0;
+            this.setState({
+                stepComponents: this.step.map((step, index) => {
+                        index += 1;
+                        return (
+                            <WorkflowStep
+                                key={Math.random()}
+                                index={index - 1}
+                                title={step.title}
+                                steps={step.steps}
+                                count={step.count}
+                                changed={-1}
+                                eventListener={this.handleDoStep}
+                                changeStep={this.handleChangeStep}
+                                changeStepValue={this.handleChangeStepValue}
+                            />
+                        )
+                    }
+                )
+            });
+        } else if (newObject !== undefined) {
             this.step.push(newObject);
             let index = 0;
             this.setState({
@@ -79,13 +104,13 @@ class Workflow extends React.Component {
                                 changed={step.changed}
                                 eventListener={this.handleDoStep}
                                 changeStep={this.handleChangeStep}
+                                changeStepValue={this.handleChangeStepValue}
                             />
                         )
                     }
                 )
             })
         } else {
-            console.log("recreate undefined");
             let index = 0;
             this.setState({
                 stepComponents: this.step.map((step, index) => {
@@ -100,6 +125,7 @@ class Workflow extends React.Component {
                                 changed={step.changed}
                                 eventListener={this.handleDoStep}
                                 changeStep={this.handleChangeStep}
+                                changeStepValue={this.handleChangeStepValue}
                             />
                         )
                     }
@@ -127,19 +153,21 @@ class Workflow extends React.Component {
     }
 
     handleSetStep(event) {
-        console.log("handleSetStep");
         this.createStep();
     }
 
     handleSetStage(event) {
-        console.log("handleSetStage");
         this.createStage();
+        this.setState({
+            textAreaKey: Math.random()
+        })
     }
 
     render() {
         return (
             <div
                 className={"flexColumn"}
+                onClick={this.handleClearChanged}
             >
                 <h1>
                     {"Workflow"}
@@ -148,10 +176,17 @@ class Workflow extends React.Component {
                     inner={"Добавить стадию процесса"}
                     eventListener={this.handleSetStep}
                 />
-                <h3>
-                    {"Опишите вашу задачу"}
+                <h3
+                    style={{
+                        textAlign: "center"
+                    }}
+                >
+                    {"Опишите Вашу задачу"}
+                    <br/>
+                    {"Для изменения задачи нажмите на неё и задайте новое значение"}
                 </h3>
                 <TextArea
+                    key={this.state.textAreaKey}
                     value={this.state.textAreaValue}
                     onChange={this.handleUpdateTextAreaValue}
                 />
