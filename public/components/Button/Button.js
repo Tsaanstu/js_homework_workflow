@@ -29,6 +29,9 @@ class Button extends React.Component {
             case "send":
                 typeRender += " buttonSend";
                 break;
+            case "changeOk":
+                typeRender += " changeOk";
+                break;
             case "default":
                 typeRender += " buttonDefault";
                 break;

@@ -21,6 +21,15 @@ class Workflow extends React.Component {
         this.handleUpdateTextAreaValue = this.handleUpdateTextAreaValue.bind(this);
         this.handleUpdateTextAreaValue = this.handleUpdateTextAreaValue.bind(this);
         this.handleDoStep = this.handleDoStep.bind(this);
+        this.handleChangeStep = this.handleChangeStep.bind(this);
+    }
+
+    handleChangeStep(indexStage, indexStep) {
+        console.log(`ChangeStep: ${indexStage}, ${indexStep}`);
+        console.log(this.step[indexStage].steps[indexStep].inner);
+        this.step[indexStage].changed = indexStep;
+        console.log(`kek is ${this.step[indexStage].changed}`);
+        this.recreateSteps();
     }
 
     handleDoStep(index) {
@@ -48,6 +57,7 @@ class Workflow extends React.Component {
             title: `Stage ${newCount}`,
             steps: [],
             count: 0,
+            changed: -1,
         });
     }
 
@@ -66,13 +76,16 @@ class Workflow extends React.Component {
                                 title={step.title}
                                 steps={step.steps}
                                 count={step.count}
+                                changed={step.changed}
                                 eventListener={this.handleDoStep}
+                                changeStep={this.handleChangeStep}
                             />
                         )
                     }
                 )
             })
         } else {
+            console.log("recreate undefined");
             let index = 0;
             this.setState({
                 stepComponents: this.step.map((step, index) => {
@@ -84,7 +97,9 @@ class Workflow extends React.Component {
                                 title={step.title}
                                 steps={step.steps}
                                 count={step.count}
+                                changed={step.changed}
                                 eventListener={this.handleDoStep}
+                                changeStep={this.handleChangeStep}
                             />
                         )
                     }
