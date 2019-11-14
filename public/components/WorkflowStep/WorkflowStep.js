@@ -53,23 +53,19 @@ class WorkflowStep extends React.Component {
                     {this.props.title}
                 </div>
                 <hr/>
-                <div
-                    className={"ListDate"}
-                >
-                    {this.state.blocks}
-                </div>
-                <div
-                    style={{
-                        position: "fixed"
-                    }}
-                >
-                    <Button
-                        eventListener={() => {
-                            this.props.eventListener(this.props.index);
-                        }}
-                        type={"send"}
-                        inner={"Перевести верхнюю задачу на следующую стадию"}
-                    />
+                <div>
+                    <div
+                        className={"ListDate"}
+                    >
+                        {this.state.blocks}
+                        <Button
+                            eventListener={() => {
+                                this.props.eventListener(this.props.index);
+                            }}
+                            type={"send"}
+                            inner={"Перевести верхнюю задачу на следующую стадию"}
+                        />
+                    </div>
                 </div>
             </div>
         )

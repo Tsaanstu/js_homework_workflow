@@ -7,19 +7,15 @@
     position: relative;
     height: 300px;
     width: var(--list-block-width);
-    margin-right: 20px;
+    margin: 30px 20px 0 0;
     background: antiquewhite;
 }
-
-.ListTitle {
-
-}
-
 .ListDate {
-    height: 100%;
+    height: 280px;
     width: 100%;
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: scroll
 }

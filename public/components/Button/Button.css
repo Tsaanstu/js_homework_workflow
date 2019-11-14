@@ -20,7 +20,8 @@
 .buttonSend {
     word-wrap: normal;
     height: 60px;
-    width: 200px;
+    width: 170px;
+    background: yellow;
 }
 
 .changeOk {
